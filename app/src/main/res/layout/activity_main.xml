@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="chibuzo.nwakama.audiogene_collection.MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/audiogram_collection"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="25dp"
+            tools:layout_editor_absoluteY="29dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                app:srcCompat="?android:attr/selectableItemBackground"
+                tools:layout_editor_absoluteX="177dp"
+                tools:layout_editor_absoluteY="25dp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Upload"
+                tools:layout_editor_absoluteX="141dp"
+                tools:layout_editor_absoluteY="107dp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.7"
+            android:isScrollContainer="true"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65">
+
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/container_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true">
+
+                <GridLayout
+                    android:id="@+id/gridLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:columnCount="1"
+                    android:padding="3dp"
+                    android:paddingStart="5dp"
+                    android:paddingTop="5dp"
+                    android:rowCount="7"
+                    tools:layout_editor_absoluteX="52dp"
+                    tools:layout_editor_absoluteY="232dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_columnSpan="1"
+                        android:layout_margin="5dp"
+                        android:layout_rowSpan="1"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:id="@+id/Input1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Gender" />
+
+                        <Spinner
+                            android:id="@+id/MFO"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:dropDownWidth="match_parent"
+                            android:textSize="10sp"
+                            tools:layout_editor_absoluteX="8dp"
+                            tools:layout_editor_absoluteY="231dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_column="0"
+                        android:layout_columnSpan="1"
+                        android:layout_margin="5dp"
+                        android:layout_row="1"
+                        android:layout_rowSpan="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/input2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:padding="2dp"
+                            android:text="@string/ethnicity" />
+
+                        <Spinner
+                            android:id="@+id/race"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:dropDownWidth="match_parent"
+                            android:textSize="12sp"
+                            tools:layout_editor_absoluteX="8dp"
+                            tools:layout_editor_absoluteY="231dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_column="0"
+                        android:layout_columnSpan="1"
+                        android:layout_margin="5dp"
+                        android:layout_row="3"
+                        android:layout_rowSpan="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/input3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_column="0"
+                            android:layout_weight="1"
+                            android:padding="2dp"
+                            android:text="@string/genetic_diagnosis" />
+
+                        <Spinner
+                            android:id="@+id/diag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:dropDownWidth="match_parent"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_column="0"
+                        android:layout_columnSpan="1"
+                        android:layout_margin="5dp"
+                        android:layout_row="4"
+                        android:layout_rowSpan="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/input4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_column="0"
+                            android:layout_weight="1"
+                            android:padding="2dp"
+                            android:text="Inheritance Pattern" />
+
+                        <Spinner
+                            android:id="@+id/pat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:dropDownWidth="match_parent"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_columnSpan="1"
+                        android:layout_margin="5dp"
+                        android:layout_row="6"
+                        android:layout_rowSpan="1"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/textView24"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="0.79"
+                            android:padding="2dp"
+                            android:text="Relationship" />
+
+                        <EditText
+                            android:id="@+id/rel"
+                            android:layout_width="93dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.21"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:text="Father"
+                            android:textAlignment="center"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_column="0"
+                        android:layout_margin="5dp"
+                        android:layout_row="5"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:padding="2dp"
+                            android:text="FamilyID" />
+
+                        <EditText
+                            android:id="@+id/familyid"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.97"
+                            android:ems="1"
+                            android:inputType="numberSigned"
+                            android:text="000000"
+                            android:textAlignment="center"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal"
+                        tools:layout_editor_absoluteX="8dp"
+                        tools:layout_editor_absoluteY="8dp">
+
+                        <TextView
+                            android:id="@+id/InputBirth"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:padding="2dp"
+                            android:text="Day of Birth" />
+
+                        <EditText
+                            android:id="@+id/idBirth"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="date"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </GridLayout>
+
+            </ScrollView>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".45"
+            android:text="@string/submit"
+            tools:layout_editor_absoluteX="14dp"
+            tools:layout_editor_absoluteY="398dp" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

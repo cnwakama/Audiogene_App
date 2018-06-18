@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name">Dummy</string>
+    <string name="submit">Submit</string>
+    <string name="audiogram_collection">Audiogram Collection</string>
+    <string name="ethnicity">Ethnicity</string>
+    <string name="genetic_diagnosis">Genetic Diagnosis</string>
+    <string-array name="Genetic_Diagnosis">
+        <item>DFNA1</item>
+        <item>DFNA10</item>
+        <item>DFNA11</item>
+        <item>DFNA13</item>
+        <item>DFNA15</item>
+        <item>DFNA16</item>
+        <item>DFNA17</item>
+        <item>DFNA18</item>
+        <item>DFNA20</item>
+        <item>DFNA22</item>
+        <item>DFNA24</item>
+        <item>DFNA25</item>
+        <item>DFNA27</item>
+        <item>DFNA28</item>
+        <item>DFNA2A</item>
+        <item>DFNA2notAnotB</item>
+        <item>DFNA31</item>
+        <item>DFNA33</item>
+        <item>DFNA36A</item>
+        <item>DFNA36notA</item>
+        <item>DFNA3A</item>
+        <item>DFNA41</item>
+        <item>DFNA43</item>
+        <item>DFNA44</item>
+        <item>DFNA44</item>
+        <item>DFNA4B</item>
+        <item>DFNA5</item>
+        <item>DFNA50</item>
+        <item>DFNA57</item>
+        <item>DFNA59</item>
+        <item>DFNA6</item>
+        <item>DFNA8</item>
+        <item>DFNA9</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="Gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="Ethnicity">
+        <item>White</item>
+        <item>Black or African American</item>
+        <item>American Indian or Alaska Native</item>
+        <item>Asian</item>
+        <item>Native Hawaiian or Other Pacific Islander</item>
+        <item>Hispanic or Latino</item>
+    </string-array>
+    <string-array name="Pattern">
+        <item>Dominant</item>
+        <item>Recessive</item>
+        <item>Mitochondrial</item>
+        <item>X-linked</item>
+    </string-array>
+</resources>
