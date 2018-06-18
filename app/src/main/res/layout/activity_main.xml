@@ -293,6 +293,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".45"
+            android:onClick="getInputs"
             android:text="@string/submit"
             tools:layout_editor_absoluteX="14dp"
             tools:layout_editor_absoluteY="398dp" />
