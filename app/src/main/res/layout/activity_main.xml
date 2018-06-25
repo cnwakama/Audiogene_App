@@ -36,6 +36,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
+                android:onClick="getPhoto"
                 app:srcCompat="?android:attr/selectableItemBackground"
                 tools:layout_editor_absoluteX="177dp"
                 tools:layout_editor_absoluteY="25dp" />
