@@ -249,7 +249,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.97"
                             android:ems="1"
-                            android:inputType="numberSigned"
+                            android:inputType="text"
                             android:text="000000"
                             android:textAlignment="center"
                             android:textSize="13sp" />
