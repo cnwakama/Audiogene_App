@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+//import org.apache.http.entity.mime.HttpMultipartMode;
 //import org.apache.http.entity.mime.MultipartEntity;
 
 import java.io.ByteArrayOutputStream;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     String ba1;
     private Uri fileUri;
-    Uri selectedImage;
+    //Uri selectedImage;
 
     // new addition
     private String encoded_string, image_name;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Upload image to server
         new BackgroundController(this, image_name, bitmap).execute();
-        //MultipartEntity multipartEntity;
+        //MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 
     }
 
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            //selectedImage = data.getData();
+            Uri selectedImage = data.getData();
             Bundle extras = data.getExtras();
             this.bitmap = (Bitmap) extras.get("data");
 
