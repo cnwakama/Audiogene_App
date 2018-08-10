@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context="chibuzo.nwakama.audiogene_collection.MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/audiogram_collection"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,21 +20,36 @@
             tools:layout_editor_absoluteX="25dp"
             tools:layout_editor_absoluteY="29dp">
 
-            <ImageView
-                android:id="@+id/imageView"
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="Open Camera" />
+
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:onClick="getPhoto"
-                app:srcCompat="?android:attr/selectableItemBackground"
-                tools:layout_editor_absoluteX="177dp"
-                tools:layout_editor_absoluteY="25dp" />
+                android:layout_weight="10"
+                android:onClick="getPhoto">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </ScrollView>
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_marginEnd="86dp"
+                android:layout_marginStart="86dp"
+                android:layout_marginTop="65dp"
+                android:layout_weight="1"
                 android:onClick="upload"
                 android:text="Upload"
                 tools:layout_editor_absoluteX="141dp"

@@ -77,15 +77,6 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... voids) {
         if (image) {
-            //bitmap = BitmapFactory.decodeFile(file_uri.getPath());
-            //ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            //bitmap.recycle();
-
-
-            //byte[] array = stream.toByteArray();
-            //encoded_string = Base64.encodeToString(array, 0);
-            //return encoded_string;
             try {
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost("http://128.255.22.123:8080/index.php/audiograms/insert");

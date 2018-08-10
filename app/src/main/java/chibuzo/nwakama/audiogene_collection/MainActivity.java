@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mDisplayDate.setText(sdf.format(myDate));
 
-        audiogram = (ImageView) findViewById(R.id.imageView);
+        //audiogram = (ImageView) findViewById(R.id.imageView);
 
         //mDisplayDate.setText();
 
