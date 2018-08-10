@@ -4,6 +4,7 @@ package chibuzo.nwakama.audiogene_collection;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -31,11 +32,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-//import org.apache.http.entity.mime.HttpMultipartMode;
-//import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.nio.file.NoSuchFileException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
@@ -79,22 +91,43 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void upload(View view) {
         // Image location URL
-        Log.e("path", "----------------" + picturePath);
+        //Log.e("path", "----------------" + picturePath);
 
-        // Image
-        //Bitmap bm = BitmapFactory.decodeFile(picturePath);
-        //Bundle extras = intent.getExtras();
-        //Bitmap bm = (Bitmap) extras.get("data");
-        ByteArrayOutputStream bao = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
-        //byte[] ba = bao.toByteArray();
-        //ba1 = Base64.encodeBytes(ba);
+        try {
+            ByteArrayOutputStream bao = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
 
-        //Log.e("base64", "-----" + ba1);
+            image_name = "Audiogram_" + cal.getTime().toString().replace(" ", "_");
 
-        // Upload image to server
-        new BackgroundController(this, image_name, bitmap).execute();
-        //MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+            String l = Environment.getExternalStorageDirectory().getAbsolutePath();
+            File f = new File(getApplicationContext().getCacheDir(), image_name +".jpg");
+            f.createNewFile();
+
+
+
+            byte[] ba = bao.toByteArray();
+
+            //OutputStream os = new BufferedOutputStream(new FileOutputStream(f));
+
+            FileOutputStream file = new FileOutputStream(f);
+            file.write(ba);
+            file.flush();
+            file.close();
+
+            MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+            mpEntity.addPart("type", new FileBody(f, "application/octet"));
+            mpEntity.addPart("tmp_name", new StringBody(f.getName()));
+
+            //ba1 = Base64.encodeBytes(ba);
+
+            //Log.e("base64", "-----" + ba1);
+
+            // Upload image to server
+            new BackgroundController(this, image_name, mpEntity).execute();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -119,20 +152,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Uri selectedImage = data.getData();
+            //Uri selectedImage = data.getData();
             Bundle extras = data.getExtras();
             this.bitmap = (Bitmap) extras.get("data");
-
-            // Cursor to get image uri to display
-            /**String[] filePathColumn = {MediaStore.Images.Media.DATA};
-             Cursor cursor = getContentResolver().query(selectedImage,
-             filePathColumn, null, null, null);
-             cursor.moveToFirst();
-
-             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-             picturePath = cursor.getString(columnIndex);
-             cursor.close();*/
-
             audiogram.setImageBitmap(this.bitmap);
         }
 
@@ -200,10 +222,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         s3.setOnItemSelectedListener(this);
         s4.setOnItemSelectedListener(this);
 
-
-
-
-
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -267,16 +285,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 break;
         }
         //Toast.makeText(MainActivity.this, adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-        /**if (i == 1) {
-            startActivity(new Intent(MainActivity.this, MainActivity.class));
-        } else if (i == 2) {
-            startActivity(new Intent(MainActivity.this, MainActivity.class));
-        }else if (i == 3) {
-            startActivity(new Intent(MainActivity.this, MainActivity.class));
-        }else if (i == 4) {
-            startActivity(new Intent(MainActivity.this, MainActivity.class));
-        }*/
-
     }
 
     @Override
@@ -291,27 +299,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         c.sendJSON();
 
     }
-
-
-    /**public void uploadImage(View view){
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, uploadUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        mTextView.setText("Response is: "+ response.substring(0,500));
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mTextView.setText("That didn't work!");
-            }
-        });
-    }*/
-
-
-
 
 }
 

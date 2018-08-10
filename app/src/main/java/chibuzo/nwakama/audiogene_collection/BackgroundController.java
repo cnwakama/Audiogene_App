@@ -21,6 +21,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -39,26 +46,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BackgroundController extends AsyncTask<String, Void, String> {
-    Context context;
-    AlertDialog alertDialog;
-    private Bitmap bitmap;
+    private MultipartEntity bitmap;
     private String encoded_string, image_name;
     @SuppressLint("StaticFieldLeak")
     private AppCompatActivity app;
     boolean image;
 
+    private ProgressDialog pd;
 
-    BackgroundController(AppCompatActivity app, boolean i){
-        this.app = app;
-        image = i;
 
-    }
-
-    BackgroundController(AppCompatActivity app, String image_name, Bitmap bit){
+    BackgroundController(AppCompatActivity app, String image_name, MultipartEntity bit){
         this.app = app;
         image = true;
         this.image_name = image_name;
         this.bitmap = bit;
+        pd = new ProgressDialog(app);
     }
 
     BackgroundController(AppCompatActivity app, String encoded_string, String image_name){
@@ -66,6 +68,7 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
         image = false;
         this.encoded_string = encoded_string;
         this.image_name = image_name;
+        pd = new ProgressDialog(app);
     }
 
    // private ProgressDialog pd = new ProgressDialog(BackgroundController.this);
@@ -75,13 +78,30 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... voids) {
         if (image) {
             //bitmap = BitmapFactory.decodeFile(file_uri.getPath());
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            bitmap.recycle();
+            //ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            //bitmap.recycle();
 
-            byte[] array = stream.toByteArray();
-            encoded_string = Base64.encodeToString(array, 0);
-            return encoded_string;
+
+            //byte[] array = stream.toByteArray();
+            //encoded_string = Base64.encodeToString(array, 0);
+            //return encoded_string;
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost("http://128.255.22.123:8080/index.php/audiograms/insert");
+
+                //String n = voids[0];
+
+                httppost.setEntity(bitmap);
+                HttpResponse response = httpclient.execute(httppost);
+                String st = EntityUtils.toString(response.getEntity());
+                Log.v("log_tag", st);
+                return "Success";
+            }
+            catch (IOException e){
+                e.printStackTrace();
+                return "Fail"; //null
+            }
         }
 
         String data = "";
@@ -129,14 +149,16 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
         //alertDialog = new AlertDialog.Builder(context).create();
         //alertDialog.setTitle("Login Status");
         //super.onPreExecute();
-        //pd.setMessage("Wait image uploading!");
-        //pd.show();
+        pd.setMessage("Wait image uploading!");
+        pd.show();
     }
 
     @Override
     protected void onPostExecute(String aVoid) {
         //alertDialog.setMessage(aVoid);
         super.onPostExecute(aVoid);
+        pd.hide();
+        pd.dismiss();
         //alertDialog.hide();
         //alertDialog.dismiss();
         makeRequest();
@@ -144,7 +166,7 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
 
     private void makeRequest() {
         RequestQueue requestQueue = Volley.newRequestQueue(app);
-        StringRequest request = new StringRequest(Request.Method.POST, "http://audiogene-dev.eng.uiowa.edu:8080/index.php/audiograms/insert",
+        StringRequest request = new StringRequest(Request.Method.POST, "http://128.255.22.123:8080/index.php/audiograms/insert",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
