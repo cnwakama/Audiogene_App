@@ -2,7 +2,9 @@ package chibuzo.nwakama.audiogene_collection;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,25 +20,32 @@ import java.util.List;
  */
 //BaseAdapter ArrayAdapter<UserModel>
 
-public class CustomAdapter extends BaseAdapter {
+public class CustomAdapter extends ArrayAdapter<UserModel> {
 
-    Activity activity;
+    //Activity activity;
     List<UserModel> users;
     LayoutInflater inflater;
     UserModel model;
 
     //short to create constructer using command+n for mac & Alt+Insert for window
 
-    public CustomAdapter(Activity activity) {
-        this.activity = activity;
+    public CustomAdapter(@NonNull Context context, int resource, @NonNull List<UserModel> objects) {
+        super(context, resource, objects);
+        inflater        = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
-    public CustomAdapter(Activity activity, List<UserModel> users) {
+
+    /**public CustomAdapter(Activity activity) {
+        this.activity = activity;
+    }*/
+
+    /**public CustomAdapter(Activity activity, List<UserModel> users) {
         this.activity   = activity;
         this.users      = users;
 
         inflater        = activity.getLayoutInflater();
-    }
+    }*/
 
 
     @Override
@@ -44,10 +53,10 @@ public class CustomAdapter extends BaseAdapter {
         return users.size();
     }
 
-    @Override
+    /**@Override
     public Object getItem(int i) {
         return i;
-    }
+    }*/
 
     @Override
     public long getItemId(int i) {

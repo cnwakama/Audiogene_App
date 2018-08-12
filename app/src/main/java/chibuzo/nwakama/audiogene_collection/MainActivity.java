@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         images = new ArrayList<>();
         listView = (ExpandableHeightListView) findViewById(R.id.expand_view);
-        adapter = new CustomAdapter(this, images);
+        adapter = new CustomAdapter(this, R.layout.item_list_item ,images);
         audiograms = new ArrayList<>();
 
         listView.setAdapter(adapter);
