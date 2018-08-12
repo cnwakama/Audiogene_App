@@ -25,20 +25,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
+                android:onClick="getPhoto"
                 android:text="Open Camera" />
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="10"
-                android:onClick="getPhoto">
+                android:layout_weight="10">
 
-                <LinearLayout
+                <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
+                    android:id="@+id/expand_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                </LinearLayout>
+                    android:layout_height="wrap_content" />
             </ScrollView>
 
             <Button
@@ -46,9 +44,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                android:layout_marginEnd="86dp"
+                android:layout_marginEnd="80dp"
                 android:layout_marginStart="86dp"
-                android:layout_marginTop="65dp"
+                android:layout_marginTop="60dp"
                 android:layout_weight="1"
                 android:onClick="upload"
                 android:text="Upload"

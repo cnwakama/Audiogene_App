@@ -4,6 +4,7 @@
     <string name="audiogram_collection">Audiogram Collection</string>
     <string name="ethnicity">Ethnicity</string>
     <string name="genetic_diagnosis">Genetic Diagnosis</string>
+    <string name="todo">TODO</string>
     <string-array name="Genetic_Diagnosis">
         <item>DFNA1</item>
         <item>DFNA10</item>

@@ -1,7 +1,9 @@
 package chibuzo.nwakama.audiogene_collection;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -21,16 +23,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -48,8 +56,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.nio.file.NoSuchFileException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static android.icu.util.Calendar.getInstance;
@@ -61,45 +71,48 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private TextView mDisplayDate;
     private TextView id;
     private TextView relationship;
-    private ImageView audiogram;
+    private List<Bitmap> audiograms;
+    //private ImageView audiogram;
     //private String uploadUrl = "";
     EditText user, pass;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private final Calendar cal = getInstance();
+    private Calendar cal = getInstance();
     private static final String TAG = "MainActivity";
     private String[] selectedItems;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     //private Intent intent;
-    private Bitmap bitmap;
+    //private Bitmap bitmap;
 
-    String picturePath;
+    private List<UserModel> images;
+    private ExpandableHeightListView listView;
+    private CustomAdapter adapter;
 
-    String ba1;
-    private Uri fileUri;
+    //String picturePath;
+
+    //String ba1;
+    //private Uri fileUri;
     //Uri selectedImage;
 
     // new addition
-    private String encoded_string, image_name;
-    private File file;
-    private Uri file_uri;
+    //private String encoded_string, image_name;
+    //private File file;
+    //private Uri file_uri;
 
 
-    String[] spinnerValue = new String[4];
+    //String[] spinnerValue = new String[4];
 
     public void upload(View view) {
         // Image location URL
         //Log.e("path", "----------------" + picturePath);
 
-        try {
+        /**try {
             ByteArrayOutputStream bao = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
 
-            image_name = "Audiogram_" + cal.getTime().toString().replace(" ", "_");
-
-            String l = Environment.getExternalStorageDirectory().getAbsolutePath();
+            //String l = Environment.getExternalStorageDirectory().getAbsolutePath();
             File f = new File(getApplicationContext().getCacheDir(), image_name +".jpg");
             f.createNewFile();
 
@@ -127,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
 
     }
 
@@ -154,8 +167,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             //Uri selectedImage = data.getData();
             Bundle extras = data.getExtras();
-            this.bitmap = (Bitmap) extras.get("data");
-            audiogram.setImageBitmap(this.bitmap);
+            Bitmap bitmap = (Bitmap) extras.get("data");
+            audiograms.add(bitmap);
+            //audiogram.setImageBitmap(this.bitmap);
+            cal = Calendar.getInstance();
+            String image_name = "Audiogram_" + cal.getTime().toString().replace(" ", "_");
+            images.add(new UserModel(image_name, false));
+            //listView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+
         }
 
         /**if (requestCode == 10 && resultCode == RESULT_OK){
@@ -167,6 +187,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        images = new ArrayList<>();
+        listView = (ExpandableHeightListView) findViewById(R.id.expand_view);
+        adapter = new CustomAdapter(this, images);
+        audiograms = new ArrayList<>();
+
+        listView.setAdapter(adapter);
+
 
         //set the Calander date to today's date
         String myFormat = "MM/dd/yyyy"; //In which you need put here
@@ -260,6 +288,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         };
 
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final AlertDialog.Builder alertadd = new AlertDialog.Builder(MainActivity.this);
+                LayoutInflater factory = LayoutInflater.from(MainActivity.this);
+                final View view2 = factory.inflate(R.layout.sample, null);
+                ImageView photo = view2.findViewById(R.id.dialog_imageview);
+                photo.setImageBitmap(audiograms.get(i));
+                alertadd.setView(view2);
+                alertadd.setNeutralButton("Here!", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dlg, int sumthin) {
+                        dlg.dismiss();
+                    }
+                });
+
+                alertadd.show();
+                return false;
+            }
+        });
 
 
     }
