@@ -5,8 +5,9 @@
 
     <item
         android:id="@+id/spinner"
+        android:actionLayout="@layout/activity_main"
         android:icon="@android:drawable/spinner_dropdown_background"
-        android:title="@string/Other"
+        android:title="@string/Hi"
         yourapp:actionViewClass="android.widget.Spinner" />
 
 </menu>

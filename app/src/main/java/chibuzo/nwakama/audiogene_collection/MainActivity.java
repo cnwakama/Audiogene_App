@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -26,6 +27,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,6 +41,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.app.ActionBar;
 
 
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
@@ -108,6 +112,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     //String[] spinnerValue = new String[4];
+
+    /**@Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.option_menu, menu);
+        MenuItem item = menu.findItem(R.id.spinner);
+        Spinner spinner = (Spinner) MenuItemCompat.getActionView(item); // get the spinner
+        //spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+        return super.onCreateOptionsMenu(menu);
+    }*/
 
     public void upload(View view) {
         // Image location URL
