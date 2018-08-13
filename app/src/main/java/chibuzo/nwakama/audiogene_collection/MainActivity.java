@@ -39,6 +39,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.app.ActionBar;
@@ -66,6 +67,7 @@ import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private Calendar cal = getInstance();
     private static final String TAG = "MainActivity";
-    private String[] selectedItems;
+    private String[][] selectedItems;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -223,12 +225,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Date myDate = new Date();
-        selectedItems = new String[4];
+        selectedItems = new String[2][4];
 
-        selectedItems[0] = getResources().getStringArray(R.array.Gender)[0];
-        selectedItems[1] = getResources().getStringArray(R.array.Ethnicity)[0];
-        selectedItems[2] = getResources().getStringArray(R.array.Genetic_Diagnosis)[0];
-        selectedItems[3] = getResources().getStringArray(R.array.Pattern)[0];
+        selectedItems[0][0] = getResources().getStringArray(R.array.Gender)[0];
+        selectedItems[0][1] = getResources().getStringArray(R.array.Ethnicity)[0];
+        selectedItems[0][2] = getResources().getStringArray(R.array.Genetic_Diagnosis)[0];
+        selectedItems[0][3] = getResources().getStringArray(R.array.Pattern)[0];
 
         //Date d = cal.getTime();
         //String s = sdf.format(myDate);
@@ -249,22 +251,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Spinner s4 = (Spinner) findViewById(R.id.pat);
 
         //setup the dropdown
-         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity.this,
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Gender));
-         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s1.setAdapter(myAdapter);
 
-        myAdapter = new ArrayAdapter<String>(MainActivity.this,
+        myAdapter = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Ethnicity));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s2.setAdapter(myAdapter);
 
-        myAdapter = new ArrayAdapter<String>(MainActivity.this,
+        myAdapter = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Genetic_Diagnosis));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s3.setAdapter(myAdapter);
 
-        myAdapter = new ArrayAdapter<String>(MainActivity.this,
+        myAdapter = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Pattern));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s4.setAdapter(myAdapter);
@@ -341,26 +343,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(final AdapterView<?> adapterView, View view, int i, long l) {
         String item = null;
         index = 5;
+        final int d = adapterView.getId();
 
         switch (adapterView.getId()) {
             case R.id.MFO:
                 item = adapterView.getSelectedItem().toString();
-                selectedItems[index = 0] = item;
+                selectedItems[0][index = 0] = item;
                 break;
 
             case R.id.race:
                 item = adapterView.getSelectedItem().toString();
-                selectedItems[index = 1] = item;
+                selectedItems[0][index = 1] = item;
                 break;
 
             case R.id.diag:
                 item = adapterView.getSelectedItem().toString();
-                selectedItems[index = 2] = item;
+                selectedItems[0][index = 2] = item;
                 break;
 
             case R.id.pat:
                 item = adapterView.getSelectedItem().toString();
-                selectedItems[index = 3] = item;
+                selectedItems[0][index = 3] = item;
                 break;
         }
         if (item != null){
@@ -386,9 +389,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             if (keycode==KeyEvent.KEYCODE_ENTER){
                                 final StringBuilder sb = new StringBuilder(textView.getText().length());
                                 sb.append(textView.getText());
-                                selectedItems[index] = sb.toString();
+                                selectedItems[0][index] = sb.toString();
                                 Spinner t = findViewById(adapterView.getId());
-                                //t.setPrompt(textView.getText());
+                                SpinnerAdapter spinnerAdapter = t.getAdapter();
+                                ArrayAdapter<String> a = (ArrayAdapter<String>) spinnerAdapter;
+                                ArrayList<String> items = new ArrayList<>();
+                                for (int i = 0; i<a.getCount() + 1; i++){
+                                    if (i == 0) {
+                                        items.add(sb.toString());
+                                        continue;
+                                    }
+                                    if ((a.getItem(i - 1)).equals(selectedItems[1][index])){
+                                        continue;
+                                    }
+                                    items.add(a.getItem(i - 1));
+                                }
+                                selectedItems[1][index] = selectedItems[0][index];
+
+                                ArrayAdapter<String> arrAdapt= new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, items);
+                                Spinner ss = findViewById(d);
+                                ss.setAdapter(arrAdapt);
+
                                 dialog.dismiss();
                             }
                         }
@@ -418,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void getInputs(View v) {
         Log.v(TAG, Arrays.toString(selectedItems) + " " + id.getTextAlignment() + " " + mDisplayDate.getText().toString() + " " + relationship.getText().toString());
-        Collection c = new Collection(selectedItems, id.getText().toString(), cal.getTime(), relationship.getText().toString(), this);
+        Collection c = new Collection(selectedItems[0], id.getText().toString(), cal.getTime(), relationship.getText().toString(), this);
         c.sendJSON();
 
     }
