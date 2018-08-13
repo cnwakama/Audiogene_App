@@ -26,6 +26,7 @@ public class CustomAdapter extends ArrayAdapter<UserModel> {
     List<UserModel> users;
     LayoutInflater inflater;
     UserModel model;
+    int position;
 
     //short to create constructer using command+n for mac & Alt+Insert for window
 
@@ -48,20 +49,20 @@ public class CustomAdapter extends ArrayAdapter<UserModel> {
     }*/
 
 
-    @Override
+    /*@Override
     public int getCount() {
         return users.size();
-    }
+    }*/
 
     /**@Override
     public Object getItem(int i) {
         return i;
     }*/
 
-    @Override
+    /**@Override
     public long getItemId(int i) {
         return i;
-    }
+    }*/
 
     /**@Override
     public void onClick(View view) {
@@ -88,7 +89,7 @@ public class CustomAdapter extends ArrayAdapter<UserModel> {
         }else
             holder = (ViewHolder)view.getTag();
 
-        model = users.get(i);
+        model = getItem(i);
 
         holder.tvUserName.setText(model.getUserName());
         holder.ivCheckBox.setBackgroundResource(R.drawable.images);
@@ -113,19 +114,23 @@ public class CustomAdapter extends ArrayAdapter<UserModel> {
             }
         });*/
 
+        position = i;
+
         holder.ivCheckBox.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                model.isSelected = true;
+                //model.isSelected = true;
+                users.remove(position);
+                notifyDataSetChanged();
             }
         });
 
 
 
-        if (model.isSelected){
+        /**if (model.isSelected){
             users.remove(i);
             notifyDataSetChanged();
-        }
+        }*/
 
 
 

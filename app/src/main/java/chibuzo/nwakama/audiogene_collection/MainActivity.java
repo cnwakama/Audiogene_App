@@ -21,8 +21,10 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,7 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.w3c.dom.Text;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private TextView id;
     private TextView relationship;
     private List<Bitmap> audiograms;
+    private int index;
     //private ImageView audiogram;
     //private String uploadUrl = "";
     EditText user, pass;
@@ -87,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     //private Bitmap bitmap;
 
     private List<UserModel> images;
-    private ExpandableHeightListView listView;
+    //private ExpandableHeightListView listView;
+    private  ListView listView;
     private CustomAdapter adapter;
 
     //String picturePath;
@@ -144,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+
+
     public void getPhoto(View view){
         //Condition - intent.resolveActivity(getPackageManager()) != null
 
@@ -174,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             String image_name = "Audiogram_" + cal.getTime().toString().replace(" ", "_");
             images.add(new UserModel(image_name, false));
             //listView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            adapter.updateRecords(images);
 
         }
 
@@ -189,7 +196,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
 
         images = new ArrayList<>();
-        listView = (ExpandableHeightListView) findViewById(R.id.expand_view);
+        //listView = (ExpandableHeightListView) findViewById(R.id.expand_view);
+        listView = (ListView) findViewById(R.id.expand_view);
         adapter = new CustomAdapter(this, R.layout.item_list_item ,images);
         audiograms = new ArrayList<>();
 
@@ -214,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         relationship = (TextView) findViewById(R.id.rel);
 
         mDisplayDate.setText(sdf.format(myDate));
+        mDisplayDate.setInputType(InputType.TYPE_NULL);
 
         //audiogram = (ImageView) findViewById(R.id.imageView);
 
@@ -282,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 cal.set(Calendar.MONTH, month);
                 cal.set(Calendar.DAY_OF_MONTH, day);
                 // myCalendar.add(Calendar.DATE, 0);
-                String myFormat = "yyyy-MM-dd"; //In which you need put here
+                String myFormat = "MM/dd/yyyy"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 mDisplayDate.setText(sdf.format(cal.getTime()));
             }
@@ -297,8 +306,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 final View view2 = factory.inflate(R.layout.sample, null);
                 ImageView photo = view2.findViewById(R.id.dialog_imageview);
                 photo.setImageBitmap(audiograms.get(i));
+                photo.setScaleType(ImageView.ScaleType.FIT_XY);
                 alertadd.setView(view2);
-                alertadd.setNeutralButton("Here!", new DialogInterface.OnClickListener() {
+                alertadd.setNeutralButton("Exit!", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dlg, int sumthin) {
                         dlg.dismiss();
                     }
@@ -313,27 +323,77 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemSelected(final AdapterView<?> adapterView, View view, int i, long l) {
+        String item = null;
+        index = 5;
 
         switch (adapterView.getId()) {
             case R.id.MFO:
-                selectedItems[0] = adapterView.getSelectedItem().toString();
+                item = adapterView.getSelectedItem().toString();
+                selectedItems[index = 0] = item;
                 break;
 
             case R.id.race:
-                selectedItems[1] = adapterView.getSelectedItem().toString();
+                item = adapterView.getSelectedItem().toString();
+                selectedItems[index = 1] = item;
                 break;
 
             case R.id.diag:
-                selectedItems[2] = adapterView.getSelectedItem().toString();
+                item = adapterView.getSelectedItem().toString();
+                selectedItems[index = 2] = item;
                 break;
 
             case R.id.pat:
-                selectedItems[3] = adapterView.getSelectedItem().toString();
+                item = adapterView.getSelectedItem().toString();
+                selectedItems[index = 3] = item;
                 break;
+        }
+        if (item != null){
+            if (item.equals("Other")){
+                final AlertDialog.Builder alertadd = new AlertDialog.Builder(MainActivity.this);
+                LayoutInflater factory = LayoutInflater.from(MainActivity.this);
+                final View view2 = factory.inflate(R.layout.other_input, null);
+                final TextView textView = view2.findViewById(R.id.input_text);
+
+                alertadd.setView(view2);
+
+                DialogInterface.OnKeyListener keylistener = new DialogInterface.OnKeyListener() {
+
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent KEvent) {
+                        int keyaction = KEvent.getAction();
+
+                        if(keyaction == KeyEvent.ACTION_DOWN)
+                        {
+                            int keycode = KEvent.getKeyCode();
+                            int keyunicode = KEvent.getUnicodeChar(KEvent.getMetaState() );
+                            //char character = (char) keyunicode;
+                            if (keycode==KeyEvent.KEYCODE_ENTER){
+                                final StringBuilder sb = new StringBuilder(textView.getText().length());
+                                sb.append(textView.getText());
+                                selectedItems[index] = sb.toString();
+                                Spinner t = findViewById(adapterView.getId());
+                                //t.setPrompt(textView.getText());
+                                dialog.dismiss();
+                            }
+                        }
+                        return false;
+                    }
+                };
+                alertadd.setOnKeyListener(keylistener);
+                /**alertadd.setNeutralButton("Exit!", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dlg, int sumthin) {
+                        dlg.dismiss();
+                    }
+                });*/
+
+                alertadd.show();
+            }
         }
         //Toast.makeText(MainActivity.this, adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
     }
+
+
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {

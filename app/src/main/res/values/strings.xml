@@ -5,6 +5,10 @@
     <string name="ethnicity">Ethnicity</string>
     <string name="genetic_diagnosis">Genetic Diagnosis</string>
     <string name="todo">TODO</string>
+    <string name="name">Name</string>
+    <string name="hint">hint</string>
+    <string name="other">Other</string>
+    <string name="Other">Other</string>
     <string-array name="Genetic_Diagnosis">
         <item>DFNA1</item>
         <item>DFNA10</item>
@@ -53,11 +57,13 @@
         <item>Asian</item>
         <item>Native Hawaiian or Other Pacific Islander</item>
         <item>Hispanic or Latino</item>
+        <item>Other</item>
     </string-array>
     <string-array name="Pattern">
         <item>Dominant</item>
         <item>Recessive</item>
         <item>Mitochondrial</item>
         <item>X-linked</item>
+        <item>Other</item>
     </string-array>
 </resources>
