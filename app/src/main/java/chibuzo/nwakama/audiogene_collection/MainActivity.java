@@ -152,11 +152,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         for (Bitmap bitmap: audiograms) {
             //try {
                 ByteArrayOutputStream bao = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bao);
 
                 //new 2
                 String name = namesOfPics.remove().userName;
-                ContentBody contentBody = new ByteArrayBody(bao.toByteArray(), name);
+                //ContentBody contentBody = new ByteArrayBody(bao.toByteArray(), name);
                 //MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
                 //MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
                 //reqEntity.addPart("upload_file", contentBody);
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
                 byte[] ba = bao.toByteArray();
+            String image_str = Base64.encodeToString(ba,Base64.DEFAULT);
 
                 OutputStream os = new BufferedOutputStream(new FileOutputStream(f));
 
@@ -182,7 +183,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 MultipartEntityBuilder mpEntity = MultipartEntityBuilder.create();
                         //MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
                 mpEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
                 mpEntity.addPart("upload_file", new FileBody(f, ContentType.DEFAULT_BINARY));
+                //mpEntity.addBinaryBody("upload_file", f);
+                //mpEntity.addPart("upload_file", new ByteArrayBody())
                 mpEntity.addPart("name", new StringBody(f.getName(), ContentType.MULTIPART_FORM_DATA));
                 //mpEntity.addPart("type", new StringBody(f.getName(), ContentType.MULTIPART_FORM_DATA));
 
