@@ -68,7 +68,7 @@ public class Collection{
     /**
      * Connect to the Server
      */
-    public void sendJSON(){
+    public void sendJSON() throws Exception{
         JSONObject postData = new JSONObject();
         try {
             postData.put("familyID", familyID);
@@ -80,7 +80,7 @@ public class Collection{
             //postData.put("date_of_collection", "06/06/06"); //Date object
             postData.put("age", age + ""); //calculate the age
             //http://172.17.141.94:8080/Audiograms/insert
-            new BackgroundController(app, postData.toString(), "image").execute("http://audiogene-dev.eng.uiowa.edu:8080/index.php/audiograms/insert", postData.toString());
+            new BackgroundController(app, postData.toString()).execute("http://128.255.22.123:8080/index.php/audiograms/insert", postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
 

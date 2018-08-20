@@ -45,16 +45,27 @@ import android.widget.Toast;
 import android.support.v7.app.ActionBar;
 
 
+//import com.android.internal.http.multipart.MultipartEntity;
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.w3c.dom.Text;
 
 import java.io.BufferedOutputStream;
@@ -70,6 +81,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Queue;
 
 import static android.icu.util.Calendar.getInstance;
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
@@ -126,43 +138,76 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return super.onCreateOptionsMenu(menu);
     }*/
 
-    public void upload(View view) {
+    public void upload(View view) throws Exception {
         // Image location URL
         //Log.e("path", "----------------" + picturePath);
+        LinkedList<UserModel> clone = ((LinkedList<UserModel>) images);
+        clone = (LinkedList<UserModel>) clone.clone();
+        Queue<UserModel> namesOfPics = clone;
+        for (Bitmap bitmap: audiograms) {
+            //try {
+                ByteArrayOutputStream bao = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
 
-        /**try {
-            ByteArrayOutputStream bao = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
+                //new 2
+                String name = namesOfPics.remove().userName;
+                ContentBody contentBody = new ByteArrayBody(bao.toByteArray(), name);
+                //MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
+                //MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                //reqEntity.addPart("upload_file", contentBody);
+                //new BackgroundController(this, name, reqEntity, true).execute();
 
-            //String l = Environment.getExternalStorageDirectory().getAbsolutePath();
-            File f = new File(getApplicationContext().getCacheDir(), image_name +".jpg");
-            f.createNewFile();
+                //String l = Environment.getExternalStorageDirectory().getAbsolutePath();
+                File f = new File(getApplicationContext().getCacheDir(), name);
+                f.createNewFile();
+
+
+                byte[] ba = bao.toByteArray();
+
+                OutputStream os = new BufferedOutputStream(new FileOutputStream(f));
+
+                FileOutputStream file = new FileOutputStream(f);
+                file.write(ba);
+                file.flush();
+                file.close();
+
+                //com.android.internal.http.multipart.MultipartEntity m = new com.android.internal.http.multipart.MultipartEntity();
+
+
+                MultipartEntityBuilder mpEntity = MultipartEntityBuilder.create();
+                        //MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                mpEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+                mpEntity.addPart("upload_file", new FileBody(f, ContentType.DEFAULT_BINARY));
+                mpEntity.addPart("name", new StringBody(f.getName(), ContentType.MULTIPART_FORM_DATA));
+                //mpEntity.addPart("type", new StringBody(f.getName(), ContentType.MULTIPART_FORM_DATA));
+
+                //ba1 = Base64.encodeBytes(ba);
+
+                //Log.e("base64", "-----" + ba1);
+
+                // Upload image to server
+            new BackgroundController(this, name, mpEntity, true).execute();
 
 
 
-            byte[] ba = bao.toByteArray();
 
-            //OutputStream os = new BufferedOutputStream(new FileOutputStream(f));
+            /**
+             * HttpClient httpclient = new DefaultHttpClient();
+             HttpPost httppost = new HttpPost("http://128.255.22.123:8080/index.php/audiograms/insert");
 
-            FileOutputStream file = new FileOutputStream(f);
-            file.write(ba);
-            file.flush();
-            file.close();
+             //String n = voids[0];
 
-            MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-            mpEntity.addPart("type", new FileBody(f, "application/octet"));
-            mpEntity.addPart("tmp_name", new StringBody(f.getName()));
-
-            //ba1 = Base64.encodeBytes(ba);
-
-            //Log.e("base64", "-----" + ba1);
-
-            // Upload image to server
-            new BackgroundController(this, image_name, mpEntity).execute();
+             httppost.setEntity(bitmap);
+             HttpResponse response = httpclient.execute(httppost);
+             String st = EntityUtils.toString(response.getEntity());
+             Log.v("log_tag", st);
+             */
+                //new BackgroundController(this, f.getName(), f, true).execute();
+                //String st = EntityUtils.toString(response.getEntity());
+           // } catch (Exception e) {
+             //   e.printStackTrace();
+            //}
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }*/
 
     }
 
@@ -195,8 +240,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             audiograms.add(bitmap);
             //audiogram.setImageBitmap(this.bitmap);
             cal = Calendar.getInstance();
-            String image_name = "Audiogram_" + cal.getTime().toString().replace(" ", "_");
-            images.add(new UserModel(image_name, false));
+            String image_name = "Audiogram_" + cal.getTime().toString().replace(" ", "_") + ".jpeg";
+            images.add(new UserModel(image_name));
             //listView.setAdapter(adapter);
             adapter.updateRecords(images);
 
@@ -212,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        images = new ArrayList<>();
+        images = new LinkedList<>();
         //listView = (ExpandableHeightListView) findViewById(R.id.expand_view);
         listView = (ListView) findViewById(R.id.expand_view);
         adapter = new CustomAdapter(this, R.layout.item_list_item ,images);
@@ -437,7 +482,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-    public void getInputs(View v) {
+    public void getInputs(View v) throws Exception{
         Log.v(TAG, Arrays.toString(selectedItems) + " " + id.getTextAlignment() + " " + mDisplayDate.getText().toString() + " " + relationship.getText().toString());
         Collection c = new Collection(selectedItems[0], id.getText().toString(), cal.getTime(), relationship.getText().toString(), this);
         c.sendJSON();
