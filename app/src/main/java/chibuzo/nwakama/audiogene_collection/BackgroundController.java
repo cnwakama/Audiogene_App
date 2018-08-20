@@ -52,6 +52,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Where information is sent to the server
+ */
 public class BackgroundController extends AsyncTask<String, Void, String> {
     final String urlString = "http://128.255.22.123:8080/index.php/audiograms/insert";
     private MultipartEntityBuilder mpEntity;
