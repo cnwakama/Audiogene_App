@@ -113,30 +113,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private  ListView listView;
     private CustomAdapter adapter;
 
-    //String picturePath;
-
-    //String ba1;
-    //private Uri fileUri;
-    //Uri selectedImage;
-
-    // new addition
-    //private String encoded_string, image_name;
-    //private File file;
-    //private Uri file_uri;
-
-
-    //String[] spinnerValue = new String[4];
-
-    /**@Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.option_menu, menu);
-        MenuItem item = menu.findItem(R.id.spinner);
-        Spinner spinner = (Spinner) MenuItemCompat.getActionView(item); // get the spinner
-        //spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-
-        return super.onCreateOptionsMenu(menu);
-    }*/
 
     /**
      * connects to server and send multiple pictures to the server
@@ -154,15 +130,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ByteArrayOutputStream bao = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bao);
 
-                //new 2
                 String name = namesOfPics.remove().userName;
-                //ContentBody contentBody = new ByteArrayBody(bao.toByteArray(), name);
-                //MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
-                //MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-                //reqEntity.addPart("upload_file", contentBody);
-                //new BackgroundController(this, name, reqEntity, true).execute();
 
-                //String l = Environment.getExternalStorageDirectory().getAbsolutePath();
                 File f = new File(getApplicationContext().getCacheDir(), name);
                 f.createNewFile();
 
@@ -185,8 +154,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 mpEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
                 mpEntity.addPart("upload_file", new FileBody(f, ContentType.DEFAULT_BINARY));
-                //mpEntity.addBinaryBody("upload_file", f);
-                //mpEntity.addPart("upload_file", new ByteArrayBody())
+
                 mpEntity.addPart("name", new StringBody(f.getName(), ContentType.MULTIPART_FORM_DATA));
                 //mpEntity.addPart("type", new StringBody(f.getName(), ContentType.MULTIPART_FORM_DATA));
 
@@ -200,22 +168,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-            /**
-             * HttpClient httpclient = new DefaultHttpClient();
-             HttpPost httppost = new HttpPost("http://128.255.22.123:8080/index.php/audiograms/insert");
 
-             //String n = voids[0];
-
-             httppost.setEntity(bitmap);
-             HttpResponse response = httpclient.execute(httppost);
-             String st = EntityUtils.toString(response.getEntity());
-             Log.v("log_tag", st);
-             */
-                //new BackgroundController(this, f.getName(), f, true).execute();
-                //String st = EntityUtils.toString(response.getEntity());
-           // } catch (Exception e) {
-             //   e.printStackTrace();
-            //}
         }
 
     }

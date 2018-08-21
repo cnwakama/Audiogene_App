@@ -6,6 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,7 +85,13 @@ public class Collection{
             //postData.put("date_of_collection", "06/06/06"); //Date object
             postData.put("age", age + ""); //calculate the age
             //http://172.17.141.94:8080/Audiograms/insert
-            new BackgroundController(app, postData.toString()).execute("http://128.255.22.123:8080/index.php/audiograms/insert", postData.toString());
+
+            MultipartEntityBuilder mpEntity = MultipartEntityBuilder.create();
+            //MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+            mpEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+            mpEntity.addPart("object", new StringBody(postData.toString(), ContentType.APPLICATION_JSON));
+
+            new BackgroundController(app, postData.toString(), mpEntity).execute("http://128.255.22.123:8080/index.php/audiograms/insert", postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
 
