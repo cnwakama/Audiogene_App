@@ -11,8 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
+//import android.icu.text.SimpleDateFormat;
+//import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -75,6 +75,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.nio.file.NoSuchFileException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -82,6 +83,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
+import java.util.Calendar;
 
 import static android.icu.util.Calendar.getInstance;
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     EditText user, pass;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private Calendar cal = getInstance();
+    private Calendar cal = Calendar.getInstance();
     private static final String TAG = "MainActivity";
     private String[][] selectedItems;
 
