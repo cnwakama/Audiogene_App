@@ -121,7 +121,7 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
         HttpURLConnection httpURLConnection = null;
         try {
 
-            HttpPost httpPost = new HttpPost(urlString);
+            HttpPost httpPost = new HttpPost(voids[0]);
             HttpEntity entity = mpEntity.build();
             //
             httpPost.setEntity(entity);

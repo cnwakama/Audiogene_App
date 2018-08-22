@@ -91,7 +91,7 @@ public class Collection{
             mpEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
             mpEntity.addPart("object", new StringBody(postData.toString(), ContentType.APPLICATION_JSON));
 
-            new BackgroundController(app, postData.toString(), mpEntity).execute("http://128.255.22.123:8080/index.php/audiograms/insert", postData.toString());
+            new BackgroundController(app, postData.toString(), mpEntity).execute("http://128.255.22.123:8080/index.php/patients/insert", postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
 
