@@ -76,14 +76,14 @@ public class Collection{
     public void sendJSON() throws Exception{
         JSONObject postData = new JSONObject();
         try {
-            postData.put("familyID", familyID);
-            postData.put("relationship", relationship);
-            postData.put("gender", spinnerValues[0]);
-            postData.put("ethnicity", spinnerValues[1]);
-            postData.put("genetic_diagnosis", spinnerValues[2]);
-            postData.put("inheritance_pattern", spinnerValues[3]);
+            postData.put("FamilyID", familyID);
+            postData.put("Relationship", relationship);
+            postData.put("Gender", spinnerValues[0]);
+            postData.put("Ethnicity", spinnerValues[1]);
+            postData.put("Genetic_Diagnosis", spinnerValues[2]);
+            postData.put("Inheritance_Pattern", spinnerValues[3]);
             //postData.put("date_of_collection", "06/06/06"); //Date object
-            postData.put("age", age + ""); //calculate the age
+            postData.put("Age", age + ""); //calculate the age
             //http://172.17.141.94:8080/Audiograms/insert
 
             MultipartEntityBuilder mpEntity = MultipartEntityBuilder.create();

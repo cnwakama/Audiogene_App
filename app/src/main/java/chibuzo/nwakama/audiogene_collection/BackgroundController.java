@@ -70,6 +70,7 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
     private boolean image;
     //private int serverResponseCode = 0;
     private ProgressDialog pd;
+    private String rst;
 
     BackgroundController(AppCompatActivity app, String encoded_string, MultipartEntityBuilder entityBuilder) throws Exception{
         this.app = app;
@@ -130,6 +131,7 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
             CloseableHttpResponse response = httpClient.execute(httpPost);
             //HttpResponse response = client.execute(httpPost);
             String st = EntityUtils.toString(response.getEntity());
+            rst =st;
             Log.v("log_tag", st);
 
             /**httpURLConnection = (HttpURLConnection) new URL(voids[0]).openConnection();
@@ -229,6 +231,8 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
         super.onPostExecute(aVoid);
         pd.hide();
         pd.dismiss();
+        pd.setMessage(rst);
+        pd.show();
         //alertDialog.hide();
         //alertDialog.dismiss();
         makeRequest();
