@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <Button
+            <!--<Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -44,7 +44,7 @@
                 android:onClick="upload"
                 android:text="Upload"
                 tools:layout_editor_absoluteX="141dp"
-                tools:layout_editor_absoluteY="107dp" />
+                tools:layout_editor_absoluteY="107dp" />-->
 
         </LinearLayout>
 

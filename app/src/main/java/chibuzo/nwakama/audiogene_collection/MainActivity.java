@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 	 * @param view
 	 * @throws Exception
 	 */
-	public void upload(View view) throws Exception
+	/**public void upload(View view) throws Exception
 	{
 		// Image location URL
 		//Log.e("path", "----------------" + picturePath);
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 		}
 
-	}
+	}*/
 
 	/**
 	 * opens camera where a picture is taken and save into a variable
