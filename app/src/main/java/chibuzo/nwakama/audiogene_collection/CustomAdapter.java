@@ -1,15 +1,11 @@
 package chibuzo.nwakama.audiogene_collection;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,19 +14,19 @@ import java.util.List;
 /**
  * Created by arthonsystechnologiesllp on 10/03/17.
  */
-//BaseAdapter ArrayAdapter<UserModel>
+//BaseAdapter ArrayAdapter<FileWrapper>
 
-public class CustomAdapter extends ArrayAdapter<UserModel> {
+public class CustomAdapter extends ArrayAdapter<FileWrapper> {
 
     //Activity activity;
-    List<UserModel> users;
+    List<FileWrapper> users;
     LayoutInflater inflater;
-    UserModel model;
+    FileWrapper model;
     int position;
 
     //short to create constructer using command+n for mac & Alt+Insert for window
 
-    public CustomAdapter(@NonNull Context context, int resource, @NonNull List<UserModel> objects) {
+    public CustomAdapter(@NonNull Context context, int resource, @NonNull List<FileWrapper> objects) {
         super(context, resource, objects);
         inflater        = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -41,7 +37,7 @@ public class CustomAdapter extends ArrayAdapter<UserModel> {
         this.activity = activity;
     }*/
 
-    /**public CustomAdapter(Activity activity, List<UserModel> users) {
+    /**public CustomAdapter(Activity activity, List<FileWrapper> users) {
         this.activity   = activity;
         this.users      = users;
 
@@ -91,7 +87,7 @@ public class CustomAdapter extends ArrayAdapter<UserModel> {
 
         model = getItem(i);
 
-        holder.tvUserName.setText(model.getUserName());
+        holder.tvUserName.setText(model.getImage_name());
         holder.ivCheckBox.setBackgroundResource(R.drawable.images);
 
         /**holder.tvUserName.setOnClickListener(new View.OnClickListener(){
@@ -139,7 +135,7 @@ public class CustomAdapter extends ArrayAdapter<UserModel> {
 
     }
 
-    public void updateRecords(List<UserModel>  users){
+    public void updateRecords(List<FileWrapper>  users){
         this.users = users;
 
         notifyDataSetChanged();

@@ -73,7 +73,7 @@ public class Collection{
     /**
      * Connect to the Server
      */
-    public void sendJSON() throws Exception{
+    public JSONObject sendJSON() throws Exception{
         JSONObject postData = new JSONObject();
         try {
             postData.put("FamilyID", familyID);
@@ -91,9 +91,12 @@ public class Collection{
             mpEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
             mpEntity.addPart("object", new StringBody(postData.toString(), ContentType.APPLICATION_JSON));
 
-            new BackgroundController(app, postData.toString(), mpEntity).execute("http://128.255.22.123:8080/index.php/patients/insert", postData.toString());
+            return postData;
+
+            //new BackgroundController(app, postData.toString(), mpEntity).execute("http://128.255.22.123:8080/index.php/patients/insert", postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
 
         }
     }
