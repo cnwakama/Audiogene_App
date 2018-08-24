@@ -231,8 +231,8 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
         super.onPostExecute(aVoid);
         pd.hide();
         pd.dismiss();
-        pd.setMessage(rst);
-        pd.show();
+        //pd.setMessage(rst);
+        //pd.show();
         //alertDialog.hide();
         //alertDialog.dismiss();
         makeRequest();

@@ -10,6 +10,7 @@
     <string name="other">Other</string>
     <string name="Other">Other</string>
     <string name="Hi">Hi</string>
+    <string name="audiogram_collection_app">audiogram_collection_app</string>
     <string-array name="Genetic_Diagnosis">
         <item>DFNA1</item>
         <item>DFNA10</item>
