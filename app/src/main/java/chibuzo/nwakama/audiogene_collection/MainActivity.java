@@ -394,6 +394,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //Log.e("base64", "-----" + ba1);
 
+        //Empty image and audiogram lists
+        images.removeAll(images);
+        audiograms.removeAll(audiograms);
+        adapter.updateRecords(images);
+
+
         // Upload image to server
         new BackgroundController(this, object.toString(), mpEntity).execute();
 
