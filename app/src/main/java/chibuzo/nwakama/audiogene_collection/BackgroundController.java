@@ -23,7 +23,7 @@ import java.util.Map;
  * Where information is sent to the server
  */
 public class BackgroundController extends AsyncTask<String, Void, String> {
-    final String URLSTRING = "http://128.255.22.123:8080/index.php/audiograms/insert";
+    final String URLSTRING = "http://128.255.22.123:8080/index.php/patients/insert";
     private MultipartEntityBuilder mpEntity;
     private String encoded_string;//, image_name;
     @SuppressLint("StaticFieldLeak")
@@ -107,7 +107,7 @@ public class BackgroundController extends AsyncTask<String, Void, String> {
      */
     private void makeRequest() {
         RequestQueue requestQueue = Volley.newRequestQueue(app);
-        StringRequest request = new StringRequest(Request.Method.POST, "http://128.255.22.123:8080/index.php/audiograms/insert",
+        StringRequest request = new StringRequest(Request.Method.POST, URLSTRING,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
