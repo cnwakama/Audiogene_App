@@ -370,13 +370,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         JSONArray files = new JSONArray();
         JSONArray names = new JSONArray();
 
+        //need to delete files after submitions
         for (FileWrapper i : images) {
             files.put(i.getEncodedFile());
             names.put(i.getImage_name());
         }
 
         object.put("files", files);
-        object.put("names:", names);
+        object.put("names", names);
 
         MultipartEntityBuilder mpEntity = MultipartEntityBuilder.create();
         mpEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
