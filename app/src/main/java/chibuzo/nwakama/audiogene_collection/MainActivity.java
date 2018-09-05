@@ -77,72 +77,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private String[][] selectedItems;
 
-    //private Intent intent;
-    //private Bitmap bitmap;
-
     private List<FileWrapper> images;
 
-    //private ExpandableHeightListView listView;
     private ListView listView;
 
     private CustomAdapter adapter;
 
-    /**
-     * connects to server and send multiple pictures to the server
-     *
-     * @param view
-     * @throws Exception
-     */
-    /**public void upload(View view) throws Exception
-     {
-     // Image location URL
-     //Log.e("path", "----------------" + picturePath);
-     LinkedList<FileWrapper> clone = ((LinkedList<FileWrapper>) images);
-     clone = (LinkedList<FileWrapper>) clone.clone();
-     Queue<FileWrapper> namesOfPics = clone;
-     for (Bitmap bitmap : audiograms)
-     {
-     //try {
-     ByteArrayOutputStream bao = new ByteArrayOutputStream();
-     bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-
-     String name = namesOfPics.remove().getImage_name();
-
-     File f = new File(getApplicationContext().getCacheDir(), name);
-     f.createNewFile();
-
-     byte[] ba = bao.toByteArray();
-     String image_str = Base64.encodeToString(ba, Base64.DEFAULT);
-
-     OutputStream os = new BufferedOutputStream(new FileOutputStream(f));
-
-     FileOutputStream file = new FileOutputStream(f);
-     file.write(ba);
-     file.flush();
-     file.close();
-
-     //com.android.internal.http.multipart.MultipartEntity m = new com.android.internal.http.multipart.MultipartEntity();
-
-     MultipartEntityBuilder mpEntity = MultipartEntityBuilder.create();
-     //MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-     mpEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-
-     mpEntity.addPart("upload_file", new FileBody(f, ContentType.DEFAULT_BINARY));
-
-     mpEntity.addPart("name", new StringBody(f.getName(), ContentType.MULTIPART_FORM_DATA));
-
-     //mpEntity.addPart("type", new StringBody(f.getName(), ContentType.MULTIPART_FORM_DATA));
-
-     //ba1 = Base64.encodeBytes(ba);
-
-     //Log.e("base64", "-----" + ba1);
-
-     // Upload image to server
-     new BackgroundController(this, name, mpEntity, true).execute();
-
-     }
-
-     }*/
 
     /**
      * opens camera where a picture is taken and save into a variable
