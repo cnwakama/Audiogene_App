@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         JSONArray files = new JSONArray();
         JSONArray names = new JSONArray();
 
-        //need to delete files after submitions
+        //need to delete files
         for (FileWrapper i : images) {
             files.put(i.getEncodedFile());
             names.put(i.getImage_name());
@@ -394,11 +394,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //Log.e("base64", "-----" + ba1);
 
-        //Empty image and audiogram lists
         images.removeAll(images);
         audiograms.removeAll(audiograms);
         adapter.updateRecords(images);
-
 
         // Upload image to server
         new BackgroundController(this, object.toString(), mpEntity).execute();
