@@ -24,6 +24,7 @@ import java.util.Map;
  */
 public class BackgroundController extends AsyncTask<String, Void, String> {
     final String URLSTRING = "http://128.255.22.123:8080/index.php/patients/insert";
+    //final String URLSTRING = "http://10.1.1.4:3000/index.php/patients/insert";
     private MultipartEntityBuilder mpEntity;
     private String encoded_string;//, image_name;
     @SuppressLint("StaticFieldLeak")
